@@ -1,0 +1,19 @@
+services:
+  todo_app:
+    container_name: todo_app
+    image: nginx:1.27
+    restart: always
+    ports:
+      - '8081:80'
+    volumes:
+      - ./src:/var/www/html
+      - ./config/nginx/default.conf:/etc/nginx/conf.d/default.conf
+  todo_php:
+    container_name: todo_php
+    tty: true
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - ./src:/var/www/html
