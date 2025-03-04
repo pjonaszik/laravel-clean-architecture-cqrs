@@ -1,14 +1,18 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/laravel",
+    "name": "pjonaszik/laravel-clean-architecture",
+    "authors": [
+        {
+            "name": "Philippe Jonaszik",
+            "email": "lionus1@live.fr"
+        }
+    ],
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "description": "The skeleton application for the Laravel framework and a try of clean architecture",
+    "keywords": ["laravel", "framework", "clean architecture", "value object", "data transfert object", "kiss", "solid", "acid", "ddd", "even-driven"],
     "license": "MIT",
     "require": {
         "php": "^8.4",
-        "ext-openssl": "*",
-        "ext-sodium": "*",
         "firebase/php-jwt": "^6.11",
         "guzzlehttp/guzzle": "^7.9",
         "laravel/framework": "^v12.0",
@@ -17,12 +21,12 @@
     "require-dev": {
         "fakerphp/faker": "^1.23",
         "laravel/pail": "^1.1",
-        "laravel/pint": "^1.13",
+        "laravel/pint": "^1.21",
         "laravel/sail": "^1.26",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.1",
         "pestphp/pest": "^3.7",
-        "pestphp/pest-plugin-laravel": "^3.0"
+        "pestphp/pest-plugin-laravel": "^3.1"
     },
     "autoload": {
         "psr-4": {

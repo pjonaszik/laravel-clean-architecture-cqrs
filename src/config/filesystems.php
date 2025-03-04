@@ -32,7 +32,7 @@ return [
 
         'gridfs' => [
             'driver' => 'gridfs',
-            'connection' => 'mongodb',
+            'connection' => 'sqlite',
             // 'database' => null,
             // 'bucket' => 'fs',
             // 'prefix' => '',

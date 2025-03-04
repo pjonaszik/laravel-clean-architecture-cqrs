@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use Exception;
 use Illuminate\Console\Command;
 use Psr\SimpleCache\InvalidArgumentException;
-use Exception;
 
 class GenerateEncryptionKeys extends Command
 {
@@ -25,6 +26,7 @@ class GenerateEncryptionKeys extends Command
 
     /**
      * Execute the console command.
+     *
      * @throws InvalidArgumentException
      * @throws \SodiumException
      */
@@ -41,11 +43,12 @@ class GenerateEncryptionKeys extends Command
             cache()->forever('private_key', $privateKey);
             cache()->forever('public_key', $publicKey);
             // Convert to PEM format
-//            $publicPem = "-----BEGIN PUBLIC KEY-----\n" . chunk_split(base64_encode($publicKey), 64, "\n") . "-----END PUBLIC KEY-----";
-//            $privatePem = "-----BEGIN PRIVATE KEY-----\n" . chunk_split(base64_encode($privateKey), 64, "\n") . "-----END PRIVATE KEY-----";
+            //            $publicPem = "-----BEGIN PUBLIC KEY-----\n" . chunk_split(base64_encode($publicKey), 64, "\n") . "-----END PUBLIC KEY-----";
+            //            $privatePem = "-----BEGIN PRIVATE KEY-----\n" . chunk_split(base64_encode($privateKey), 64, "\n") . "-----END PRIVATE KEY-----";
 
         } catch (Exception $e) {
-            $this->error('❌ Error generating public/private keys: ' . $e->getMessage());
+            $this->error('❌ Error generating public/private keys: '.$e->getMessage());
+
             return;
         }
 
