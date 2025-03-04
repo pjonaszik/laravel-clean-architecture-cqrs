@@ -1,4 +1,4 @@
-# 🏗️ Laravel Clean Architecture - Todo App
+# 🏗️ (WIP) - Laravel Clean Architecture - Todo App
 
 This is a **Clean Architecture** implementation of a **Todo App** in Laravel, following **SOLID, ACID, KISS** principles. It includes:  
 ✅ **Domain-Driven Design (DDD)** with Entities, Value Objects & Services  
@@ -13,32 +13,46 @@ This is a **Clean Architecture** implementation of a **Todo App** in Laravel, fo
 
 ```
 📦 laravel_clean_architecture_todo
- ┣ 📂 config                     # Docker configuration files
- ┃ ┣ 📂 nginx
+ ┣ 📂 config                      # ⚙️ Configuration files (Docker, Laravel, etc.)
+ ┃ ┣ 📂 nginx                     # 🌐 Nginx configuration (reverse proxy)
  ┃ ┃ ┣ default.conf
- ┃ ┣ 📂 php
+ ┃ ┣ 📂 php                       # 🐘 PHP-specific configurations
  ┃ ┃ ┣ docker-php-ext.ini
- ┣ 📂 src
- ┃ ┣ 📂 app
- ┃ ┃ ┣ 📂 Todo
- ┃ ┃ ┃ ┣ 📂 Application            # 🚀 Application Layer (Services)
- ┃ ┃ ┃ ┃ ┣ 📂 Services             # Business logic (use cases)
- ┃ ┃ ┃ ┣ 📂 Domain                 # 🏛️ Domain Layer (Core Business)
- ┃ ┃ ┃ ┃ ┣ 📂 Entities             # Domain Objects (Todo)
- ┃ ┃ ┃ ┃ ┣ 📂 Repositories         # Interfaces for Data Access
- ┃ ┃ ┃ ┃ ┣ 📂 ValueObjects         # Value Objects (e.g., TaskTitle, DueDate)
- ┃ ┃ ┃ ┣ 📂 Infrastructure         # 🏗️ Infrastructure (Persistence)
- ┃ ┃ ┃ ┃ ┣ 📂 Repositories         # Implementations of Repositories
- ┃ ┃ ┣ 📂 Http                     # 🌍 Web Layer (Controllers, Requests)
- ┃ ┃ ┣ 📂 Events                   # 📢 Event-Driven (TodoUpdated)
- ┃ ┃ ┣ 📂 Listeners                # 👂 Listeners (Handle Todo Events)
- ┃ ┣ 📂 database                   # 📊 Migrations & Seeders
- ┃ ┣ 📂 tests                      # 🧪 PestPHP Tests
- ┃ ┃ ┣ ...(others laravel folders)
- ┣ 📜 docker-compose.yml
- ┣ 🐳 Dockerfile
- ┣ 📜 README.md
-==========
+ ┣ 📂 src                         # 📦 Application source code
+ ┃ ┣ 📂 app                       
+ ┃ ┃ ┣ 📂 Todo                    # 📝 Todo Bounded Context
+ ┃ ┃ ┃ ┣ 📂 Application           # 🚀 Application Layer (Use Cases, Services)
+ ┃ ┃ ┃ ┃ ┣ 📂 Commands            # 🏗️ Use Cases (Command Handlers)
+ ┃ ┃ ┃ ┃ ┣ 📂 Queries             # 🔍 Query Handlers (Read Operations)
+ ┃ ┃ ┃ ┃ ┣ 📂 DTOs                # 📦 Data Transfer Objects (Request Models)
+ ┃ ┃ ┃ ┃ ┣ 📂 Services            # 🛠️ Application Services (Coordinators)
+ ┃ ┃ ┃ ┣ 📂 Domain                # 🏛️ Domain Layer (Business Logic)
+ ┃ ┃ ┃ ┃ ┣ 📂 Entities            # 🎭 Core Business Entities (Todo, User, etc.)
+ ┃ ┃ ┃ ┃ ┣ 📂 Events              # 📢 Domain Events (TodoCreated, TodoUpdated)
+ ┃ ┃ ┃ ┃ ┣ 📂 ValueObjects        # 🧩 Value Objects (Title, DueDate, etc.)
+ ┃ ┃ ┃ ┃ ┣ 📂 Interfaces          # 🏗️ Interfaces (Repositories, Services)
+ ┃ ┃ ┃ ┣ 📂 Infrastructure        # 🏗️ Infrastructure Layer (Persistence, APIs)
+ ┃ ┃ ┃ ┃ ┣ 📂 Persistence         # 💾 Database (Models, Repositories)
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂 Models            # 🏛️ ORM Models (Eloquent Models)
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂 Repositories      # 🔄 Repository Implementations (Eloquent)
+ ┃ ┃ ┃ ┃ ┣ 📂 Listeners           # 👂 Event Listeners (React to Domain Events)
+ ┃ ┃ ┃ ┃ ┣ 📂 Services            # 🌍 External Services (API Clients, etc.)
+ ┃ ┃ ┃ ┃ ┣ 📂 Gateways            # 🔌 Third-party Integrations (Payment, Email)
+ ┃ ┃ ┣ 📂 Http                    # 🌍 Web Layer (Controllers, Requests)
+ ┃ ┃ ┃ ┣ 📂 Controllers           # 🎮 API Controllers (Thin, Calls Use Cases)
+ ┃ ┃ ┃ ┣ 📂 Requests              # 📥 Form Requests (Validation)
+ ┃ ┃ ┣ 📂 Events                  # 🔔 Application Events (Laravel Listeners)
+ ┃ ┃ ┣ 📂 Listeners               # 👂 Handles Events (Sends Emails, etc.)
+ ┃ ┣ 📂 database                  # 📊 Database Layer (Migrations, Seeders)
+ ┃ ┃ ┣ 📂 migrations              # 🔄 Database Migrations
+ ┃ ┃ ┣ 📂 seeders                 # 🌱 Data Seeders (Initial Data)
+ ┃ ┣ 📂 tests                     # 🧪 Automated Tests (Pest, PHPUnit)
+ ┃ ┃ ┣ 📂 Feature                 # 🔍 API & Use Case Tests
+ ┃ ┃ ┣ 📂 Unit                    # 🔬 Unit Tests (Domain, Services)
+ ┃ ┃ ┣ 📂 Integration             # 🔗 Integration Tests (Repositories, APIs)
+ ┣ 📜 docker-compose.yml          # 🐳 Docker Compose (Services Definition)
+ ┣ 🐳 Dockerfile                  # 🐘 PHP App Dockerfile
+ ┣ 📜 README.md                   # 📖 Documentation
 ```
 ---
 
