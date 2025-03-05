@@ -8,14 +8,6 @@ use App\Todo\Domain\Entities\Todo;
 
 interface TodoRepositoryInterface
 {
-    /**
-     * @return Todo[]
-     */
-    public function getAll(): array;
-
-    public function findById(string $id): array;
-
-    public function save(Todo $todo): array;
-
-    public function delete(string $id): void;
+    public function create(Todo $todo): Todo;
+    public function retrieve(string $id, array $criteria): ?Todo;
 }

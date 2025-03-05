@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Todo\Application\Requests;
+namespace App\Requests\Todo;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
@@ -26,7 +26,7 @@ abstract class TodoRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'due_date.after' => 'Due date time must be at least 5min after now.',
+//            'due_date.after' => 'Due date time must be at least 5min after now.',
         ];
     }
 

@@ -3,26 +3,19 @@
 namespace App\Providers;
 
 use App\Todo\Domain\Repositories\TodoRepositoryInterface;
-use App\Todo\Infrastructure\Repositories\TodoRepository;
+use App\Todo\Infrastructure\Persistence\TodoRepository;
 use Illuminate\Support\ServiceProvider;
 
 class TodoServiceProvider extends ServiceProvider
 {
-    /**
-     * All of the container bindings that should be registered.
-     *
-     * @var array
-     */
-    public $bindings = [
-        TodoRepositoryInterface::class => TodoRepository::class,
+    public $singletons = [
+        TodoRepositoryInterface::class => TodoRepository::class
     ];
-
     /**
      * Register services.
      */
     public function register(): void
     {
-        //
     }
 
     /**

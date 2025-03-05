@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Todo\Application\Requests;
+namespace App\Requests\Todo;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 
-class UpdateRequest extends TodoRequest
+class RetrieveTodoRequest extends TodoRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,7 @@ class UpdateRequest extends TodoRequest
     public function rules(): array
     {
         return [
-            'title' => ['nullable','string'],
-            'description' => ['nullable', 'string'],
-            'due_date' => ['nullable', 'date'],
+            'title' => ['nullable', 'string'],
             'completed' => ['nullable', 'boolean'],
         ];
     }

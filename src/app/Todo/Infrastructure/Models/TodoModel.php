@@ -19,7 +19,10 @@ class TodoModel extends Model
 
     protected $fillable = ['title', 'description', 'due_date', 'completed'];
 
-    protected $casts = ['completed' => 'boolean'];
+    protected $casts = [
+        'completed' => 'boolean',
+        'due_date' => 'datetime',
+    ];
 
     protected static function boot(): void
     {

@@ -6,7 +6,6 @@ namespace App\Todo\Infrastructure\Models;
 
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 /**
  * @extends Factory<TodoModel>

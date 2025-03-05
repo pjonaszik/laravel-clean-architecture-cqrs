@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Todo\Application\Requests;
+namespace App\Requests\Todo;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 
-class CreateRequest extends TodoRequest
+class CreateTodoRequest extends TodoRequest
 {
     /**
      * Determine if the user is authorized to make this request.
