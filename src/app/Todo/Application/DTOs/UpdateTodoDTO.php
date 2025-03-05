@@ -6,11 +6,12 @@ namespace App\Todo\Application\DTOs;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-readonly class RetrieveTodoDTO
+readonly class UpdateTodoDTO
 {
     public function __construct(
         public string $id,
         public ?string $title,
+        public ?string $description,
         public bool $completed = false,
     ) {
     }
@@ -20,6 +21,7 @@ readonly class RetrieveTodoDTO
         return new self(
             $id,
             $request->validated()['title'] ?? null,
+            $request->validated()['description'] ?? null,
             $request->validated()['completed'] ?? false,
         );
     }

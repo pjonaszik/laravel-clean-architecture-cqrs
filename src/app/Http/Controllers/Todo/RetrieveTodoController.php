@@ -20,7 +20,7 @@ class RetrieveTodoController extends Controller
     }
     public function __invoke(RetrieveTodoRequest $request, string $id): JsonResponse
     {
-        $dto = RetrieveTodoDTO::fromRequest($request, $id);
+        $dto = RetrieveTodoDTO::fromRequest($id, $request);
         $todo = $this->retrieveTodoService->handle($dto);
 
         return response()->json($todo);

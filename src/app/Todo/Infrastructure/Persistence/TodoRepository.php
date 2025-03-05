@@ -55,4 +55,30 @@ class TodoRepository implements TodoRepositoryInterface
             $todo->completed,
         );
     }
+
+    public function update(string $id, array $update): ?Todo
+    {
+        $todo = TodoModel::find($id);
+        if (!$todo) {
+            return null;
+        }
+        if ($update['title']) {
+            $todo->title = $update['title'];
+        }
+        if ($update['description']) {
+            $todo->description = $update['description'];
+        }
+        if ($update['completed']) {
+            $todo->completed = $update['completed'];
+        }
+        $todo->save();
+
+        return new Todo(
+            $todo->id,
+            $todo->title,
+            $todo->description,
+            Carbon::parse($todo->due_date)->toDateTimeImmutable(),
+            $todo->completed,
+        );
+    }
 }

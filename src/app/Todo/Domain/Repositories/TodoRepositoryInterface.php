@@ -10,4 +10,5 @@ interface TodoRepositoryInterface
 {
     public function create(Todo $todo): Todo;
     public function retrieve(string $id, array $criteria): ?Todo;
+    public function update(string $id, array $update): ?Todo;
 }
