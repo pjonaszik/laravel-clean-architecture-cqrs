@@ -12,7 +12,7 @@ cache:
 	docker compose exec todo_php composer dump-autoload
 
 pint:
-	docker compose exec todo_php ./vendor/bin/pint
+	docker compose exec -it todo_php ./vendor/bin/pint
 
 test:
 	docker compose exec todo_php php artisan test

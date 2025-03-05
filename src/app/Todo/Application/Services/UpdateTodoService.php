@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Todo\Application\Services;
 
-use App\Todo\Application\DTOs\RetrieveTodoDTO;
 use App\Todo\Application\DTOs\UpdateTodoDTO;
 use App\Todo\Domain\Repositories\TodoRepositoryInterface;
 

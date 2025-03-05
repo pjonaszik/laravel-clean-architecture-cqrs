@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Todo\Application\Services;
 
-use App\Todo\Application\DTOs\CreateTodoDTO;
 use App\Todo\Application\DTOs\RetrieveTodoDTO;
-use App\Todo\Domain\Entities\Todo;
 use App\Todo\Domain\Repositories\TodoRepositoryInterface;
 
 readonly class RetrieveTodoService
