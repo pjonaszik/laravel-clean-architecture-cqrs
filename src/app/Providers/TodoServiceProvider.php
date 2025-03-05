@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Todo\Domain\Repositories\TodoRepositoryInterface;
-use App\Todo\Infrastructure\Persistence\TodoRepository;
+use App\Todo\Infrastructure\Repositories\TodoRepository;
 use Illuminate\Support\ServiceProvider;
 
 class TodoServiceProvider extends ServiceProvider

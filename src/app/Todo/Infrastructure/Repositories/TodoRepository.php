@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Todo\Infrastructure\Persistence;
+namespace App\Todo\Infrastructure\Repositories;
 
 use App\Todo\Domain\Entities\Todo;
 use App\Todo\Domain\Repositories\TodoRepositoryInterface;
@@ -80,5 +80,45 @@ class TodoRepository implements TodoRepositoryInterface
             Carbon::parse($todo->due_date)->toDateTimeImmutable(),
             $todo->completed,
         );
+    }
+
+    public function delete(?string $id, ?array $criteria): bool
+    {
+        $todo = TodoModel::query();
+        foreach ($criteria as $key => $value) {
+            if ($id) {
+                $todo->where('id', '=', $id);
+            }
+            if ($value && ($key === 'title' || $key === 'description')) {
+                $todo->where($key, 'LIKE', "%{$value}%");
+            }
+            if ($value && $key === 'completed') {
+                $todo->where($key, (bool) $value);
+            }
+        }
+
+        return (bool) $todo->delete();
+    }
+
+    public function retrieveAll(array $criteria): array
+    {
+        $todos = TodoModel::query();
+        foreach ($criteria as $key => $value) {
+            if ($value && $key === 'completed') {
+                $todos->where($key, (bool) $value);
+            }
+        }
+
+        $todos = collect($todos->get());
+
+        return $todos->map(function (TodoModel $todo) {
+            return new Todo(
+                $todo->id,
+                $todo->title,
+                $todo->description,
+                Carbon::parse($todo->due_date)->toDateTimeImmutable(),
+                $todo->completed,
+            )->toArray();
+        })->toArray();
     }
 }
