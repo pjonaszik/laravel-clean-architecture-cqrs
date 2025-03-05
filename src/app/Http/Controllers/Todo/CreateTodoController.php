@@ -6,21 +6,25 @@ namespace App\Http\Controllers\Todo;
 
 use App\Http\Controllers\Controller;
 use App\Requests\Todo\CreateTodoRequest;
-use App\Todo\Application\DTOs\CreateTodoDTO;
-use App\Todo\Application\Services\CreateTodoService;
+use App\Todo\Application\Commands\CreateTodoCommand;
 use Illuminate\Http\JsonResponse;
 
 class CreateTodoController extends Controller
 {
-    public function __construct(private readonly CreateTodoService $createTodoService)
-    {
-    }
-
     public function __invoke(CreateTodoRequest $request): JsonResponse
     {
-        $dto = CreateTodoDTO::fromRequest($request);
-        $todo = $this->createTodoService->handle($dto);
+        try {
+            $command = new CreateTodoCommand(
+                title: $request->validated()['title'],
+                description: $request->validated()['description'],
+                dueDate: $request->validated()['due_date'],
+            );
+            $todo = dispatch_sync($command);
 
-        return response()->json($todo);
+            return response()->json($todo);
+        } catch (\Exception $e) {
+//            report($exception);
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
     }
 }

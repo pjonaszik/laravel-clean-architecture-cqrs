@@ -14,9 +14,9 @@ class TodoRepository implements TodoRepositoryInterface
     public function create(Todo $todo): Todo
     {
         $model = new TodoModel();
-        $model->title = $todo->title;
-        $model->description = $todo->description;
-        $model->due_date = $todo->dueDate->format(DATE_RFC3339);
+        $model->title = $todo->title->value;
+        $model->description = $todo->description->value;
+        $model->due_date = $todo->dueDate->value->format(DATE_RFC3339);
         $model->completed = $todo->completed;
         $model->save();
 
