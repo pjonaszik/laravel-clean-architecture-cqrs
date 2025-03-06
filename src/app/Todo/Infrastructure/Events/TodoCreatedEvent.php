@@ -1,25 +1,24 @@
 <?php
+
 declare(strict_types=1);
 
-namespace App\Events;
+namespace App\Todo\Infrastructure\Events;
 
-use App\Todo\Domain\Entities\Todo;
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 class TodoCreatedEvent
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable;
+    use InteractsWithSockets;
+    use SerializesModels;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(readonly Todo $todo)
+    public function __construct(readonly string $todo)
     {
         //
     }
@@ -32,7 +31,12 @@ class TodoCreatedEvent
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('channel-name'),
+            new PrivateChannel('todo'),
         ];
+    }
+
+    public function __toString(): string
+    {
+        return (string) $this->todo;
     }
 }

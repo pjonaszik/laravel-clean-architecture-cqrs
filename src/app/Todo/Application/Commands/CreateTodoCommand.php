@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Todo\Application\Commands;
 
-readonly class CreateTodoCommand
+use App\Todo\Application\Bus\Command\Command;
+use App\Todo\Application\Data\CreateTodoData;
+
+readonly class CreateTodoCommand extends Command
 {
     public function __construct(
-        public string $title,
-        public string $description,
-        public string $dueDate,
-        public bool $completed,)
-    {
+        public CreateTodoData $createTodoData,
+    ) {
     }
 }

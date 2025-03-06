@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Requests\Todo;
+namespace App\Todo\Presentation\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Str;
 
 abstract class TodoRequest extends FormRequest
 {

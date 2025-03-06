@@ -1,11 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
-namespace App\Listeners;
+namespace App\Todo\Infrastructure\Listeners;
 
-use App\Events\TodoCreatedEvent;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Todo\Infrastructure\Events\TodoCreatedEvent;
 use Illuminate\Support\Facades\Log;
 
 class SendTodoCreatedNotification
@@ -23,6 +22,6 @@ class SendTodoCreatedNotification
      */
     public function handle(TodoCreatedEvent $event): void
     {
-        Log::info("New Todo Created: " . $event->todo->title->value);
+        Log::info("New Todo Created ID: " . $event);
     }
 }

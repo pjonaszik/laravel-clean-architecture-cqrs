@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Todo\Infrastructure\Repositories;
 
+use App\Todo\Application\Data\CreateTodoData;
 use App\Todo\Domain\Entities\Todo;
 use App\Todo\Domain\Repositories\TodoRepositoryInterface;
 use App\Todo\Infrastructure\Models\TodoModel;
@@ -11,22 +12,18 @@ use Carbon\Carbon;
 
 class TodoRepository implements TodoRepositoryInterface
 {
-    public function create(Todo $todo): Todo
+    public function create(CreateTodoData $createTodoData): string
     {
         $model = new TodoModel();
-        $model->title = $todo->title->value;
-        $model->description = $todo->description->value;
-        $model->due_date = $todo->dueDate->value->format(DATE_RFC3339);
-        $model->completed = $todo->completed;
+        $model->title = $createTodoData->title->value;
+        $model->description = $createTodoData->description->value;
+        $model->due_date = Carbon::parse($createTodoData->dueDate->value)
+            ->toDateTimeImmutable()->format(\DateTimeInterface::RFC3339);
+        $model->completed = $createTodoData->completed;
         $model->save();
 
-        return new Todo(
-            $model->id,
-            $model->title,
-            $model->description,
-            Carbon::parse($model->due_date)->toDateTimeImmutable(),
-            $model->completed,
-        );
+        return $model->id;
+        //        return Todo::fromModel($model);
     }
 
     public function retrieve(string $id, array $criteria): ?Todo

@@ -4,37 +4,23 @@ declare(strict_types=1);
 
 namespace App\Todo\Application\Services;
 
-use App\Events\TodoCreatedEvent;
-use App\Todo\Domain\Entities\Todo;
+use App\Todo\Application\Contracts\TodoServiceContract;
+use App\Todo\Application\Data\CreateTodoData;
 use App\Todo\Domain\Repositories\TodoRepositoryInterface;
-use App\Todo\Domain\ValueObjects\TaskDescription;
-use App\Todo\Domain\ValueObjects\TaskDueDate;
-use App\Todo\Domain\ValueObjects\TaskTitle;
+use App\Todo\Infrastructure\Events\TodoCreatedEvent;
 
-readonly class CreateTodoService
+readonly class CreateTodoService implements TodoServiceContract
 {
     public function __construct(private TodoRepositoryInterface $todoRepository)
     {
     }
 
-    public function handle(
-        string $title,
-        string $description,
-        string $dueDate,
-        bool $completed = false,
-    ): Todo
-    {
-        $todo = new Todo(
-            id: null,
-            title: new TaskTitle($title),
-            description: new TaskDescription($description),
-            dueDate: new TaskDueDate($dueDate),
-            completed: $completed,
-        );
+    public function create(
+        CreateTodoData $createTodoData
+    ): string {
+        $id = $this->todoRepository->create($createTodoData);
+        event(new TodoCreatedEvent($id));
 
-        $todo = $this->todoRepository->create($todo);
-        event(new TodoCreatedEvent($todo));
-
-        return $this->todoRepository->create($todo);
+        return $id;
     }
 }
