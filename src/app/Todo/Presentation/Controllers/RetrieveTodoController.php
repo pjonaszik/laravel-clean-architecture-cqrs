@@ -2,24 +2,30 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Todo;
+namespace App\Todo\Presentation\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Requests\Todo\RetrieveTodoRequest;
-use App\Todo\Application\DTOs\RetrieveTodoDTO;
-use App\Todo\Application\Services\RetrieveTodoService;
+use App\Todo\Application\Bus\Contracts\QueryBusContract;
+use App\Todo\Application\Data\GetTodoQueryData;
+use App\Todo\Application\Queries\GetTodoQuery;
+use App\Todo\Presentation\Requests\RetrieveTodoRequest;
 use Illuminate\Http\JsonResponse;
 
-class RetrieveTodoController extends Controller
+readonly class RetrieveTodoController
 {
-    public function __construct(private readonly RetrieveTodoService $retrieveTodoService)
-    {
+    public function __construct(
+        private QueryBusContract $queryBus
+    ) {
     }
-    public function __invoke(RetrieveTodoRequest $request, string $id): JsonResponse
+    public function __invoke(RetrieveTodoRequest $request): JsonResponse
     {
-        $dto = RetrieveTodoDTO::fromRequest($id, $request);
-        $todo = $this->retrieveTodoService->handle($dto);
+        try {
+            $queryData = GetTodoQueryData::fromRequest($request);
+            $query = new GetTodoQuery($queryData);
+            $todo = $this->queryBus->ask($query);
 
-        return response()->json($todo);
+            return response()->json($todo);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 400, );
+        }
     }
 }

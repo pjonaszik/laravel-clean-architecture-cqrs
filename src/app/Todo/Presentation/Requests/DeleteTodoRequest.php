@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Requests\Todo;
+namespace App\Todo\Presentation\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Validation\Validator;

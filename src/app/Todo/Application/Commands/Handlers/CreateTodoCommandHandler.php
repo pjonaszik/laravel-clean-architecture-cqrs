@@ -6,18 +6,16 @@ namespace App\Todo\Application\Commands\Handlers;
 
 use App\Todo\Application\Bus\Command\CommandHandler;
 use App\Todo\Application\Commands\CreateTodoCommand;
-use App\Todo\Application\Contracts\TodoServiceContract;
-use App\Todo\Domain\Entities\Todo;
+use App\Todo\Application\Services\CreateTodoService;
 
 final class CreateTodoCommandHandler extends CommandHandler
 {
-    public function __construct(private readonly TodoServiceContract $todoService)
+    public function __construct(private readonly CreateTodoService $createTodoService)
     {
     }
 
-    public function handle(CreateTodoCommand $command): Todo
+    public function __invoke(CreateTodoCommand $command): string
     {
-        return $this->todoService->create($command->createTodoData);
+        return $this->createTodoService->create($command->createTodoData);
     }
-
 }

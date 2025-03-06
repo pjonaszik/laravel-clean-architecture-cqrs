@@ -9,7 +9,7 @@ use App\Todo\Domain\ValueObjects\TaskDueDate;
 use App\Todo\Domain\ValueObjects\TaskTitle;
 use App\Todo\Presentation\Requests\CreateTodoRequest;
 
-class CreateTodoData
+readonly class CreateTodoData
 {
     public function __construct(
         public ?string $id,

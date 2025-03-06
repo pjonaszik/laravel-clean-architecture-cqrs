@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Requests\Todo;
+namespace App\Todo\Presentation\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 
@@ -23,8 +23,13 @@ class RetrieveTodoRequest extends TodoRequest
      */
     public function rules(): array
     {
+        $this->merge([
+            'id' => $this->route('id'),
+        ]);
         return [
+            'id' => ['ulid'],
             'title' => ['nullable', 'string'],
+            'due_date' => ['nullable', 'date'],
             'completed' => ['nullable', 'boolean'],
         ];
     }

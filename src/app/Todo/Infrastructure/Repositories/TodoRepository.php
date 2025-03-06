@@ -44,13 +44,7 @@ class TodoRepository implements TodoRepositoryInterface
             return null;
         }
 
-        return new Todo(
-            $todo->id,
-            $todo->title,
-            $todo->description,
-            Carbon::parse($todo->due_date)->toDateTimeImmutable(),
-            $todo->completed,
-        );
+        return Todo::fromModel($todo);
     }
 
     public function update(string $id, array $update): ?Todo

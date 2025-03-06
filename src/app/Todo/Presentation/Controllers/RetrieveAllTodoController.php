@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Todo;
+namespace App\Todo\Presentation\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Requests\Todo\RetrieveAllTodoRequest;

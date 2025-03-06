@@ -16,5 +16,6 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withExceptions()
     ->withSchedule(function (Schedule $schedule) {
         $schedule->command('key:generate-encryption-keys')->dailyAt('00:00');
+        $schedule->command('logs:clear')->weeklyOn([7])->dailyAt('00:00');
     })
     ->create();
