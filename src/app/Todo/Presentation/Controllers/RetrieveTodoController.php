@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Todo\Presentation\Controllers;
 
 use App\Todo\Application\Bus\Contracts\QueryBusContract;
-use App\Todo\Application\Data\GetTodoQueryData;
+use App\Todo\Application\Data\GetTodoData;
 use App\Todo\Application\Queries\GetTodoQuery;
 use App\Todo\Presentation\Requests\RetrieveTodoRequest;
 use Illuminate\Http\JsonResponse;
@@ -19,7 +19,7 @@ readonly class RetrieveTodoController
     public function __invoke(RetrieveTodoRequest $request): JsonResponse
     {
         try {
-            $queryData = GetTodoQueryData::fromRequest($request);
+            $queryData = GetTodoData::fromRequest($request);
             $query = new GetTodoQuery($queryData);
             $todo = $this->queryBus->ask($query);
 

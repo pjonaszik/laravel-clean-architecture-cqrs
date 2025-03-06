@@ -7,12 +7,12 @@ namespace App\Todo\Application\Data;
 use App\Todo\Domain\ValueObjects\TaskTitle;
 use App\Todo\Presentation\Requests\RetrieveTodoRequest;
 
-readonly class GetTodoQueryData
+readonly class GetTodoData
 {
     public function __construct(
         public string       $id,
         public ?TaskTitle   $title = null,
-        public ?bool        $completed = false,
+        public bool        $completed = false,
     ) {
     }
 
@@ -31,7 +31,7 @@ readonly class GetTodoQueryData
     {
         return [
             'id' => $this->id,
-            'title' => $this->title->value,
+            'title' => $this->title?->value,
             'completed' => $this->completed,
         ];
     }

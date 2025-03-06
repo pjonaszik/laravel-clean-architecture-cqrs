@@ -2,11 +2,9 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\Todo\UpdateTodoController;
-use App\Http\Controllers\Todo\DeleteTodoController;
-use App\Http\Controllers\Todo\RetrieveAllTodoController;
 use App\Todo\Presentation\Controllers\CreateTodoController;
 use App\Todo\Presentation\Controllers\RetrieveTodoController;
+use App\Todo\Presentation\Controllers\UpdateTodoController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {

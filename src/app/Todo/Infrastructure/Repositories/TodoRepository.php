@@ -9,6 +9,7 @@ use App\Todo\Domain\Entities\Todo;
 use App\Todo\Domain\Repositories\TodoRepositoryInterface;
 use App\Todo\Infrastructure\Models\TodoModel;
 use Carbon\Carbon;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class TodoRepository implements TodoRepositoryInterface
 {
@@ -47,30 +48,27 @@ class TodoRepository implements TodoRepositoryInterface
         return Todo::fromModel($todo);
     }
 
-    public function update(string $id, array $update): ?Todo
+    public function update(string $id, array $update): string
     {
-        $todo = TodoModel::find($id);
-        if (!$todo) {
-            return null;
-        }
-        if ($update['title']) {
-            $todo->title = $update['title'];
-        }
-        if ($update['description']) {
-            $todo->description = $update['description'];
-        }
-        if ($update['completed']) {
-            $todo->completed = $update['completed'];
-        }
-        $todo->save();
+        try {
+            $todo = TodoModel::find($id);
+            throw_if(!$todo, [NotFoundHttpException::class], "Todo not found");
 
-        return new Todo(
-            $todo->id,
-            $todo->title,
-            $todo->description,
-            Carbon::parse($todo->due_date)->toDateTimeImmutable(),
-            $todo->completed,
-        );
+            if ($update['title']) {
+                $todo->title = $update['title'];
+            }
+            if ($update['description']) {
+                $todo->description = $update['description'];
+            }
+            if ($update['completed']) {
+                $todo->completed = $update['completed'];
+            }
+            $todo->save();
+
+            return $id;
+        } catch (\Exception|\Throwable $e) {
+            throw new NotFoundHttpException($e->getMessage());
+        }
     }
 
     public function delete(?string $id, ?array $criteria): bool

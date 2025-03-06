@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Providers;
 
@@ -8,6 +9,8 @@ use App\Todo\Application\Bus\Contracts\QueryBusContract;
 use App\Todo\Application\Bus\Query\QueryBus;
 use App\Todo\Application\Commands\CreateTodoCommand;
 use App\Todo\Application\Commands\Handlers\CreateTodoCommandHandler;
+use App\Todo\Application\Commands\Handlers\UpdateTodoCommandHandler;
+use App\Todo\Application\Commands\UpdateTodoCommand;
 use App\Todo\Application\Queries\GetTodoQuery;
 use App\Todo\Application\Queries\Handlers\GetTodoQueryHandler;
 use App\Todo\Domain\Repositories\TodoRepositoryInterface;
@@ -16,6 +19,7 @@ use Illuminate\Support\ServiceProvider;
 
 class TodoServiceProvider extends ServiceProvider
 {
+    
     /**
      * All of the container singletons that should be registered.
      *
@@ -45,7 +49,8 @@ class TodoServiceProvider extends ServiceProvider
     protected function registerCommandHandlers(): void
     {
         $this->app->make(CommandBusContract::class)->register([
-           CreateTodoCommand::class => CreateTodoCommandHandler::class
+           CreateTodoCommand::class => CreateTodoCommandHandler::class,
+            UpdateTodoCommand::class => UpdateTodoCommandHandler::class
         ]);
     }
     protected function registerQueryHandlers(): void

@@ -11,7 +11,7 @@ interface TodoRepositoryInterface
 {
     public function create(CreateTodoData $createTodoData): string;
     public function retrieve(string $id, array $criteria): ?Todo;
-    public function update(string $id, array $update): ?Todo;
+    public function update(string $id, array $update): string;
 
     /**
      * @param array $update

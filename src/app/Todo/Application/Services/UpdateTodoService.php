@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Todo\Application\Services;
 
-use App\Todo\Application\DTOs\UpdateTodoDTO;
+use App\Todo\Application\Data\UpdateTodoData;
 use App\Todo\Domain\Repositories\TodoRepositoryInterface;
+use App\Todo\Infrastructure\Events\TodoUpdatedEvent;
 
 readonly class UpdateTodoService
 {
@@ -13,14 +14,18 @@ readonly class UpdateTodoService
     {
     }
 
-    public function handle(UpdateTodoDTO $dto): ?array
+    public function update(UpdateTodoData $updateTodoData): string
     {
         $update = [
-            'title' => $dto->title,
-            'description' => $dto->description,
-            'completed' => $dto->completed,
+            'title' => $updateTodoData->title?->value,
+            'description' => $updateTodoData->description?->value,
+            'due_date' => $updateTodoData->dueDate?->value,
+            'completed' => $updateTodoData->completed,
         ];
-        $todo = $this->todoRepository->update($dto->id, $update);
-        return $todo?->toArray();
+
+        $id = $this->todoRepository->update($updateTodoData->id, $update);
+        event(new TodoUpdatedEvent($id));
+
+        return $id;
     }
 }

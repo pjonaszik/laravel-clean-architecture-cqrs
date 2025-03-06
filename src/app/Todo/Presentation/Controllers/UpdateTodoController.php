@@ -4,22 +4,24 @@ declare(strict_types=1);
 
 namespace App\Todo\Presentation\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Requests\Todo\UpdateTodoRequest;
-use App\Todo\Application\DTOs\UpdateTodoDTO;
+use App\Todo\Application\Bus\Command\CommandBus;
+use App\Todo\Application\Commands\UpdateTodoCommand;
+use App\Todo\Application\Data\UpdateTodoData;
 use App\Todo\Application\Services\UpdateTodoService;
+use App\Todo\Presentation\Requests\UpdateTodoRequest;
 use Illuminate\Http\JsonResponse;
 
-class UpdateTodoController extends Controller
+readonly class UpdateTodoController
 {
-    public function __construct(private readonly UpdateTodoService $updateTodoService)
+    public function __construct(private readonly CommandBus $commandBus)
     {
     }
     public function __invoke(UpdateTodoRequest $request, string $id): JsonResponse
     {
-        $dto = UpdateTodoDTO::fromRequest($id, $request);
-        $todo = $this->updateTodoService->handle($dto);
+        $updateData = UpdateTodoData::fromRequest($request, $id);
+        $command = new UpdateTodoCommand($updateData);
+        $id = $this->commandBus->dispatch($command);
 
-        return response()->json($todo);
+        return response()->json(compact('id'));
     }
 }

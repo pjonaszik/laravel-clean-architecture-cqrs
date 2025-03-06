@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Todo\Infrastructure\Listeners;
+namespace App\Todo\Domain\Listeners;
 
 use App\Todo\Infrastructure\Events\TodoCreatedEvent;
+use App\Todo\Infrastructure\Events\TodoUpdatedEvent;
 use Illuminate\Support\Facades\Log;
 
-class SendTodoCreatedNotification
+class SendTodoUpdatedNotification
 {
     /**
      * Create the event listener.
@@ -20,8 +21,8 @@ class SendTodoCreatedNotification
     /**
      * Handle the event.
      */
-    public function handle(TodoCreatedEvent $event): void
+    public function handle(TodoUpdatedEvent $event): void
     {
-        Log::info("New Todo Created ID: " . $event);
+        Log::info("New Todo Updated ID: " . $event);
     }
 }
