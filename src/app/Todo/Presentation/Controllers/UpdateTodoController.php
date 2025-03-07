@@ -12,15 +12,19 @@ use Illuminate\Http\JsonResponse;
 
 readonly class UpdateTodoController
 {
-    public function __construct(private readonly CommandBus $commandBus)
+    public function __construct(private CommandBus $commandBus)
     {
     }
     public function __invoke(UpdateTodoRequest $request, string $id): JsonResponse
     {
-        $updateData = UpdateTodoData::fromRequest($request, $id);
-        $command = new UpdateTodoCommand($updateData);
-        $id = $this->commandBus->dispatch($command);
+        try {
+            $updateData = UpdateTodoData::fromRequest($request, $id);
+            $command = new UpdateTodoCommand($updateData);
+            $id = $this->commandBus->dispatch($command);
 
-        return response()->json(compact('id'));
+            return response()->json(compact('id'));
+        } catch (\Throwable $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
     }
 }

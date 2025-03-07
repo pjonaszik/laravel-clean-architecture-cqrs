@@ -4,22 +4,25 @@ declare(strict_types=1);
 
 namespace App\Todo\Presentation\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Requests\Todo\DeleteTodoRequest;
-use App\Todo\Application\DTOs\DeleteTodoDTO;
-use App\Todo\Application\Services\DeleteTodoService;
+use App\Todo\Application\Bus\Contracts\CommandBusContract;
+use App\Todo\Application\Commands\DeleteTodoCommand;
 use Illuminate\Http\JsonResponse;
 
-class DeleteTodoController extends Controller
+readonly class DeleteTodoController
 {
-    public function __construct(private readonly DeleteTodoService $deleteTodoService)
+    public function __construct(private CommandBusContract $commandBus)
     {
     }
-    public function __invoke(DeleteTodoRequest $request, ?string $id): JsonResponse
-    {
-        $dto = DeleteTodoDTO::fromRequest($id, $request);
-        $todo = $this->deleteTodoService->handle($dto);
 
-        return response()->json($todo);
+    public function __invoke(string $id): JsonResponse
+    {
+        try {
+            $command = new DeleteTodoCommand($id);
+            $this->commandBus->dispatch($command);
+
+            return response()->json(compact('id'));
+        } catch (\Throwable $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
     }
 }

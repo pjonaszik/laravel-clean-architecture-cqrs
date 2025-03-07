@@ -23,9 +23,6 @@ class RetrieveAllTodoRequest extends TodoRequest
      */
     public function rules(): array
     {
-        return [
-            'title' => ['nullable', 'string'],
-            'completed' => ['nullable', 'boolean'],
-        ];
+        return [];
     }
 }

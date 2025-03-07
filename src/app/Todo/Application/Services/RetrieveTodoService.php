@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Todo\Application\Services;
 
-use App\Todo\Application\Queries\GetTodoQuery;
+use App\Todo\Application\Queries\RetrieveTodoQuery;
 use App\Todo\Domain\Repositories\TodoRepositoryInterface;
 
 readonly class RetrieveTodoService
@@ -13,9 +13,9 @@ readonly class RetrieveTodoService
     {
     }
 
-    public function retrieveTodo(GetTodoQuery $todoQuery): ?array
+    public function retrieve(RetrieveTodoQuery $todoQuery): ?array
     {
-        $queryData = $todoQuery->getTodoQueryData;
+        $queryData = $todoQuery->query;
         $id = $queryData->id;
         $criteria = [
             'title' => $queryData->title?->value,

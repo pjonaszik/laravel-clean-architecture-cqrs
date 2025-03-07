@@ -42,7 +42,7 @@ class TodoRepository implements TodoRepositoryInterface
 
         $todo = $todo->first();
         if (!$todo) {
-            return null;
+            throw new NotFoundHttpException('Todo not found', code: 404);
         }
 
         return Todo::fromModel($todo);
@@ -52,7 +52,9 @@ class TodoRepository implements TodoRepositoryInterface
     {
         try {
             $todo = TodoModel::find($id);
-            throw_if(!$todo, [NotFoundHttpException::class], "Todo not found");
+            if (!$todo) {
+                throw new NotFoundHttpException('Todo not found.', code: 404);
+            }
 
             if ($update['title']) {
                 $todo->title = $update['title'];
@@ -71,34 +73,29 @@ class TodoRepository implements TodoRepositoryInterface
         }
     }
 
-    public function delete(?string $id, ?array $criteria): bool
+    public function delete(string $id): void
     {
-        $todo = TodoModel::query();
-        foreach ($criteria as $key => $value) {
-            if ($id) {
-                $todo->where('id', '=', $id);
-            }
-            if ($value && ($key === 'title' || $key === 'description')) {
-                $todo->where($key, 'LIKE', "%{$value}%");
-            }
-            if ($value && $key === 'completed') {
-                $todo->where($key, (bool) $value);
-            }
+        $todo = TodoModel::find($id);
+        if (!$todo) {
+            throw new NotFoundHttpException('Todo not found', code: 404);
         }
-
-        return (bool) $todo->delete();
+        $todo->delete();
     }
 
-    public function retrieveAll(array $criteria): array
+    public function retrieveAll(?array $criteria): array
     {
         $todos = TodoModel::query();
-        foreach ($criteria as $key => $value) {
-            if ($value && $key === 'completed') {
-                $todos->where($key, (bool) $value);
+        if ($criteria) {
+            foreach ($criteria as $key => $value) {
+                if ($value && $key === 'title') {
+                    $todos->where($key, 'LIKE', $value);
+                }
+                if ($value && $key === 'completed') {
+                    $todos->where($key, (bool) $value);
+                }
             }
         }
-
-        $todos = collect($todos->get());
+        $todos = collect($todos->limit(25)->get());
 
         return $todos->map(function (TodoModel $todo) {
             return new Todo(

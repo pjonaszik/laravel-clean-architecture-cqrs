@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Todo\Application\Services;
 
-use App\Todo\Application\DTOs\RetrieveAllTodoDTO;
+use App\Todo\Application\Queries\RetrieveAllTodoQuery;
 use App\Todo\Domain\Repositories\TodoRepositoryInterface;
 
 readonly class RetrieveAllTodoService
@@ -13,11 +13,14 @@ readonly class RetrieveAllTodoService
     {
     }
 
-    public function handle(RetrieveAllTodoDTO $dto): ?array
+    public function retrieveAll(RetrieveAllTodoQuery $query): ?array
     {
+        $query = $query->query;
         $criteria = [
-            'completed' => $dto->completed,
+            'title' => $query->title?->value ?? null,
+            'completed' => $query->completed ?? null,
         ];
+
         return $this->todoRepository->retrieveAll($criteria);
     }
 }

@@ -9,11 +9,15 @@ use App\Todo\Application\Bus\Contracts\CommandBusContract;
 use App\Todo\Application\Bus\Contracts\QueryBusContract;
 use App\Todo\Application\Bus\Query\QueryBus;
 use App\Todo\Application\Commands\CreateTodoCommand;
+use App\Todo\Application\Commands\DeleteTodoCommand;
 use App\Todo\Application\Commands\Handlers\CreateTodoCommandHandler;
+use App\Todo\Application\Commands\Handlers\DeleteTodoCommandHandler;
 use App\Todo\Application\Commands\Handlers\UpdateTodoCommandHandler;
 use App\Todo\Application\Commands\UpdateTodoCommand;
-use App\Todo\Application\Queries\GetTodoQuery;
-use App\Todo\Application\Queries\Handlers\GetTodoQueryHandler;
+use App\Todo\Application\Queries\Handlers\RetrieveAllTodoQueryHandler;
+use App\Todo\Application\Queries\RetrieveAllTodoQuery;
+use App\Todo\Application\Queries\RetrieveTodoQuery;
+use App\Todo\Application\Queries\Handlers\RetrieveTodoQueryHandler;
 use App\Todo\Domain\Listeners\TodoEventSubscriber;
 use App\Todo\Domain\Repositories\TodoRepositoryInterface;
 use App\Todo\Infrastructure\Repositories\TodoRepository;
@@ -53,14 +57,16 @@ class TodoServiceProvider extends ServiceProvider
     protected function registerCommandHandlers(): void
     {
         $this->app->make(CommandBusContract::class)->register([
-           CreateTodoCommand::class => CreateTodoCommandHandler::class,
-            UpdateTodoCommand::class => UpdateTodoCommandHandler::class
+            CreateTodoCommand::class => CreateTodoCommandHandler::class,
+            UpdateTodoCommand::class => UpdateTodoCommandHandler::class,
+            DeleteTodoCommand::class => DeleteTodoCommandHandler::class,
         ]);
     }
     protected function registerQueryHandlers(): void
     {
         $this->app->make(QueryBusContract::class)->register([
-            GetTodoQuery::class => GetTodoQueryHandler::class
+            RetrieveTodoQuery::class => RetrieveTodoQueryHandler::class,
+            RetrieveAllTodoQuery::class => RetrieveAllTodoQueryHandler::class
         ]);
     }
 }

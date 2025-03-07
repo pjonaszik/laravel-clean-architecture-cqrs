@@ -25,8 +25,6 @@ class DeleteTodoRequest extends TodoRequest
     public function rules(): array
     {
         return [
-            'title' => ['nullable', 'string'],
-            'description' => ['nullable', 'string'],
             'completed' => ['nullable', 'boolean'],
         ];
     }

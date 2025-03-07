@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Todo\Application\Services;
 
-use App\Todo\Application\DTOs\DeleteTodoDTO;
 use App\Todo\Domain\Repositories\TodoRepositoryInterface;
+use App\Todo\Infrastructure\Events\TodoDeletedEvent;
 
 readonly class DeleteTodoService
 {
@@ -13,14 +13,9 @@ readonly class DeleteTodoService
     {
     }
 
-    public function handle(DeleteTodoDTO $dto): bool
+    public function delete(string $id): void
     {
-        $id = $dto->id;
-        $criteria = [
-            'title' => $dto->title,
-            'description' => $dto->description,
-            'completed' => $dto->completed,
-        ];
-        return $this->todoRepository->delete($id, $criteria);
+        $this->todoRepository->delete($id);
+        event(new TodoDeletedEvent($id));
     }
 }

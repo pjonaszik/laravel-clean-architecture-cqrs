@@ -14,8 +14,8 @@ interface TodoRepositoryInterface
     public function update(string $id, array $update): string;
 
     /**
-     * @param array $update
-     * @return Todo[]
+     * @param array|null $criteria
+     * @return Todo[]|[]
      */
-    public function retrieveAll(array $criteria): array;
+    public function retrieveAll(?array $criteria): array;
 }
