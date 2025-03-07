@@ -7,7 +7,6 @@ namespace App\Todo\Presentation\Controllers;
 use App\Todo\Application\Bus\Command\CommandBus;
 use App\Todo\Application\Commands\UpdateTodoCommand;
 use App\Todo\Application\Data\UpdateTodoData;
-use App\Todo\Application\Services\UpdateTodoService;
 use App\Todo\Presentation\Requests\UpdateTodoRequest;
 use Illuminate\Http\JsonResponse;
 

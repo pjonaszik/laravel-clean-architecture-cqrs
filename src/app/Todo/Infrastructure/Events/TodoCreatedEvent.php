@@ -6,10 +6,11 @@ namespace App\Todo\Infrastructure\Events;
 
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class TodoCreatedEvent
+class TodoCreatedEvent implements ShouldQueue
 {
     use Dispatchable;
     use InteractsWithSockets;

@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Todo\Application\Commands\Handlers;
 
 use App\Todo\Application\Bus\Command\CommandHandler;
-use App\Todo\Application\Commands\CreateTodoCommand;
 use App\Todo\Application\Commands\UpdateTodoCommand;
-use App\Todo\Application\Services\CreateTodoService;
 use App\Todo\Application\Services\UpdateTodoService;
 
 final class UpdateTodoCommandHandler extends CommandHandler

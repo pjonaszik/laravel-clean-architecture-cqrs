@@ -28,10 +28,10 @@ class ClearLog extends Command
         $this->info('🔐 Clearing log files...');
         // Write keys to files
         try {
-            exec('echo "" > ' . storage_path('logs/laravel.log'));
-            exec('echo "" > ' . storage_path('logs/php-error.log'));
+            file_put_contents(storage_path('logs/laravel.log'), '');
+            file_put_contents(storage_path('logs/php-error.log'), '');
         } catch (Exception $e) {
-            $this->error('❌ Failed clear log files.');
+            $this->error('❌ Failed clear log files.' . $e->getMessage());
             return;
         }
 

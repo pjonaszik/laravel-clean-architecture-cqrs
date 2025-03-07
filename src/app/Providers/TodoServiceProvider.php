@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Providers;
@@ -13,13 +14,14 @@ use App\Todo\Application\Commands\Handlers\UpdateTodoCommandHandler;
 use App\Todo\Application\Commands\UpdateTodoCommand;
 use App\Todo\Application\Queries\GetTodoQuery;
 use App\Todo\Application\Queries\Handlers\GetTodoQueryHandler;
+use App\Todo\Domain\Listeners\TodoEventSubscriber;
 use App\Todo\Domain\Repositories\TodoRepositoryInterface;
 use App\Todo\Infrastructure\Repositories\TodoRepository;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 class TodoServiceProvider extends ServiceProvider
 {
-    
     /**
      * All of the container singletons that should be registered.
      *
@@ -44,6 +46,8 @@ class TodoServiceProvider extends ServiceProvider
     {
         $this->registerCommandHandlers();
         $this->registerQueryHandlers();
+
+        Event::subscribe(TodoEventSubscriber::class);
     }
 
     protected function registerCommandHandlers(): void
